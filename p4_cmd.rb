@@ -44,6 +44,7 @@ def deal_changes from_date, to_date
     time = Time.at(element['time'].to_i).strftime("%Y/%m/%d %H:%M:%S")
     job = linked_job change
     job = job[0].nil? ? "" :  job[0]['Job']
+    job = "no related job" if job.nil? # some changelist doesn't have related job
     message = time+"["+change+"]\n"+job+"\n"+comment
     sync_info = p4_sync change
     dir_size = git_commit message
@@ -66,6 +67,7 @@ def run
   date_logger = ""
   while ( deal_date <=> to_date) < 0 do
     deal_changes(date_formater(from_date), date_formater(deal_date))
+    from_date = deal_date
     deal_date = deal_date + (60 * 60 *24)
   end
 end
