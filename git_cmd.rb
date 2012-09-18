@@ -18,7 +18,7 @@ end
 def git_commit message
   git_init
   message.gsub!(/["]/,"'")  # deal the comments contain double question marks"
-  `git add .`
+  `git add -A .`
   `git commit -m "#{message}"`
   git_push
   dirs = ['../trunk.git/','../workspace/.git/','../workspace/']
